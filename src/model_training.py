@@ -146,10 +146,3 @@ class ModelTraining:
             logger.error(f"Error in model training process {e}")
             raise CustomException("Failed during model training process", e)
         
-if __name__ == "__main__":
-    model_trainer = ModelTraining(
-        train_path=PROCESSED_TRAIN_DATA_PATH,
-        test_path=PROCESSED_TEST_DATA_PATH,
-        model_output_path=MODEL_OUTPUT_PATH
-    )
-    model_trainer.run()

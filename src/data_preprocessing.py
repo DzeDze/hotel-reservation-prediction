@@ -141,11 +141,3 @@ class DataProcessor:
             logger.error(f"Error during the data preprocessing process {e}")
             raise CustomException("Failed in data preprocessing process", e)
         
-if __name__ == "__main__":
-    data_preprocessing = DataProcessor(
-        train_path=TRAIN_FILE_PATH,
-        test_path=TEST_FILE_PATH,
-        processed_dir=PROCESSED_DIR,
-        config_path=CONFIG_PATH
-    )
-    data_preprocessing.process()
