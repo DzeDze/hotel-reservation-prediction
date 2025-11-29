@@ -23,6 +23,5 @@ RUN uv run -m pipeline.training_pipeline
 
 EXPOSE 5000
 
-# CMD ["python", "application.py"]
-# CMD ["uv", "run", "python", "application.py"]
+
 CMD ["uv", "run", "python", "-m", "application"]
