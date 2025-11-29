@@ -11,4 +11,14 @@ pipeline{
             }
         }
     }
+
+    stage('Setting up Python environment and Installing dependencies') {
+    steps {
+        script {
+            echo 'Setting up Python environment and installing dependencies with uv...'
+            sh '''
+                uv sync --all-extras --dev
+            '''
+        }
+    }
 }
