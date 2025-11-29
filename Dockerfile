@@ -10,13 +10,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install uv (via pip)
+# Upgrade pip and install uv
 RUN python -m pip install --upgrade pip
 RUN python -m pip install uv
 
 COPY . .
 
-# RUN pip install --no-cache-dir .
+# Recreate uv environment and install dependencies
+RUN uv venv --force
 RUN uv pip install --no-cache -e ./
 RUN uv run -m pipeline.training_pipeline
 
