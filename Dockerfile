@@ -7,7 +7,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends\
     libgomp1 \
-    && app-get-clean \
+    && app-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
