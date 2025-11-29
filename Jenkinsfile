@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environtment {
+        GCP_PROJECT = "flash-spot-479504-u3" //copy from gcp console
+        GCLOUD_PATH = "var/jenkins_home/google-cloud-sdk/bin"
+    }
+
     stages {
         stage('Cloning Github repo to Jenkins') {
             steps {
@@ -19,6 +24,25 @@ pipeline {
                         uv sync --all-extras --dev
                     '''
                 }
+            }
+        }
+
+        stage('Building and Pushing Docker Image to GCR') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    script {
+                        echo 'Building and Pushing Docker Image to GCR.......'
+                        sh '''
+                            export PATH=$PATH:$(GCLOUD_PATH)
+                            gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                            gcloud config set project ${GCP_PROJECT}
+                            gcloud auth configure-docker --quiet
+                            IMAGE_NAME=gcr.io/${GCP_PROJECT}/hotel-reservation-prediction:latest
+                            docker build -t ${IMAGE_NAME} .
+                            docker push ${IMAGE_NAME}
+                        '''
+                    }
+                } 
             }
         }
     }
