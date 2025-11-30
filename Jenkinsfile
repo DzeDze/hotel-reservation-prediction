@@ -59,8 +59,8 @@ pipeline {
 
                         gcloud config set project ${GCP_PROJECT}
 
-                        gcloud run deploy ml-project \
-                            --image=gcr.io/${GCP_PROJECT}/ml-project:latest \
+                        gcloud run deploy hotel-reservation-prediction \
+                            --image=gcr.io/${GCP_PROJECT}/hotel-reservation-prediction:latest \
                             --platform=managed \
                             --region=us-central1 \
                             --allow-unauthenticated
