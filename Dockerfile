@@ -21,7 +21,7 @@ RUN uv venv
 RUN uv pip install --no-cache -e ./
 RUN uv run -m pipeline.training_pipeline
 
-EXPOSE 5000
+EXPOSE 8080
 
 
 CMD ["uv", "run", "python", "-m", "application"]
