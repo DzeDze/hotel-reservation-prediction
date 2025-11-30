@@ -38,7 +38,7 @@ pipeline {
                             gcloud config set project ${GCP_PROJECT}
                             gcloud auth configure-docker --quiet
                             IMAGE_NAME=gcr.io/${GCP_PROJECT}/hotel-reservation-prediction:latest
-                            docker build -t ${IMAGE_NAME} .
+                            docker build --platform=linux/amd64 -t ${IMAGE_NAME} .
                             docker push ${IMAGE_NAME}
                         '''
                     }
