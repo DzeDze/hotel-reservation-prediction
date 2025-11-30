@@ -24,4 +24,4 @@ RUN uv run -m pipeline.training_pipeline
 EXPOSE 8080
 
 
-CMD ["uv", "run", "python", "-m", "application"]
+CMD ["python", "application.py"]
