@@ -26,7 +26,9 @@ pipeline {
                 }
             }
         }
-
+        // Make sure the image is built with amd64 architecture
+        // using --platform=linux/amd64 flag
+        // espectially buiding from Silicon Mac
         stage('Building and Pushing Docker Image to GCR') {
             steps {
                 withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
