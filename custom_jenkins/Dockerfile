@@ -8,19 +8,30 @@ FROM jenkins/jenkins:2.480
 USER root
 
 # Install prerequisites and Docker
-RUN apt-get update -y && \
-    apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
-    # echo "deb [arch=amd64] https://download.docker.com/linux/debian bullseye nightly" > /etc/apt/sources.list.d/docker.list
-    echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
+# update script to install python3-pip and libgomp1
 RUN apt-get update -y && \
     apt-get install -y \
-    docker-ce  \
-    docker-ce-cli \
-    containerd.io  && \
-    apt-get clean
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg \
+        software-properties-common \
+        python3-pip \
+        libgomp1 && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+    echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    apt-get update -y && \
+    apt-get install -y \
+        docker-ce  \
+        docker-ce-cli \
+        containerd.io  && \
+    apt-get clean&& \
+    rm -rf /var/lib/apt/lists/*
 
+# Upgrade pip and install uv
+# --break-system-packages
+# Safe because the container is ephemeral and isolated.
+RUN python3 -m pip install --upgrade pip uv --break-system-packages
 
 # Add Jenkins user to the Docker group (create if it doesn't exist)
 RUN groupadd -f docker && \

@@ -17,7 +17,7 @@ RUN python -m pip install uv
 COPY . .
 
 # Recreate uv environment and install dependencies
-RUN uv venv --force
+RUN uv venv 
 RUN uv pip install --no-cache -e ./
 RUN uv run -m pipeline.training_pipeline
 
